@@ -1,0 +1,10 @@
+name: exp001_face_waveform
+stage: 0
+fs: 30
+heart_rate_bpm: 72
+pos_frames: 300
+physnet_frames: 128
+spatial: 64
+physnet_steps: 30
+band_hz: [0.75, 3.0]
+seed: 0

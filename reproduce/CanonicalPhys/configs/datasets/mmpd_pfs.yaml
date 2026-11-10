@@ -1,0 +1,119 @@
+TRAIN:
+  DATA:
+    FS: 30
+    DATASET: MMPD
+    DO_PREPROCESS: false
+    DATA_FORMAT: NCDHW
+    DATA_PATH: PATH/TO/RAW_DATASETS/MMPD
+    CACHED_PATH: datasets/MMPD/preprocessed
+    FILE_LIST_PATH: datasets/MMPD/file_lists/train.csv
+    LMDB_PATH: datasets/MMPD/lmdb
+    BEGIN: 0.0
+    END: 0.8
+    PREPROCESS:
+      DATA_TYPE:
+      - DiffNormalized
+      DATA_AUG:
+      - None
+      LABEL_TYPE: DiffNormalized
+      DO_CHUNK: true
+      CHUNK_LENGTH: 160
+      CROP_FACE:
+        DO_CROP_FACE: true
+        BACKEND: RF
+        RETINAFACE_MODEL_PATH: weights/retinaface/Resnet50_Final.pth
+        USE_LARGE_FACE_BOX: true
+        LARGE_BOX_COEF: 1.5
+        DETECTION:
+          DO_DYNAMIC_DETECTION: false
+          DYNAMIC_DETECTION_FREQUENCY: 32
+          USE_MEDIAN_FACE_BOX: false
+      RESIZE:
+        H: 72
+        W: 72
+    LANDMARKS_PATH: datasets/MMPD/landmarks
+    POSES_PATH: datasets/MMPD/poses
+    VALID_MASK_PATH: datasets/MMPD/valid_mask
+    TRANSFORMS_PATH: datasets/MMPD/transforms
+    HOMOGRAPHIES_PATH: datasets/MMPD/homographies
+VALID:
+  DATA:
+    FS: 30
+    DATASET: MMPD
+    DO_PREPROCESS: false
+    DATA_FORMAT: NCDHW
+    DATA_PATH: PATH/TO/RAW_DATASETS/MMPD
+    CACHED_PATH: datasets/MMPD/preprocessed
+    FILE_LIST_PATH: datasets/MMPD/file_lists/valid.csv
+    LMDB_PATH: datasets/MMPD/lmdb
+    BEGIN: 0.8
+    END: 1.0
+    PREPROCESS:
+      DATA_TYPE:
+      - DiffNormalized
+      DATA_AUG:
+      - None
+      LABEL_TYPE: DiffNormalized
+      DO_CHUNK: true
+      CHUNK_LENGTH: 160
+      CROP_FACE:
+        DO_CROP_FACE: true
+        BACKEND: RF
+        RETINAFACE_MODEL_PATH: weights/retinaface/Resnet50_Final.pth
+        USE_LARGE_FACE_BOX: true
+        LARGE_BOX_COEF: 1.5
+        DETECTION:
+          DO_DYNAMIC_DETECTION: false
+          DYNAMIC_DETECTION_FREQUENCY: 32
+          USE_MEDIAN_FACE_BOX: false
+      RESIZE:
+        H: 72
+        W: 72
+    LANDMARKS_PATH: datasets/MMPD/landmarks
+    POSES_PATH: datasets/MMPD/poses
+    VALID_MASK_PATH: datasets/MMPD/valid_mask
+    TRANSFORMS_PATH: datasets/MMPD/transforms
+    HOMOGRAPHIES_PATH: datasets/MMPD/homographies
+TEST:
+  METRICS:
+  - MAE
+  - RMSE
+  - MAPE
+  - Pearson
+  - SNR
+  USE_LAST_EPOCH: false
+  DATA:
+    FS: 30
+    DATASET: MMPD
+    DO_PREPROCESS: false
+    DATA_FORMAT: NCDHW
+    DATA_PATH: PATH/TO/RAW_DATASETS/MMPD
+    CACHED_PATH: datasets/MMPD/preprocessed
+    FILE_LIST_PATH: datasets/MMPD/file_lists/test.csv
+    LMDB_PATH: datasets/MMPD/lmdb
+    BEGIN: 0.0
+    END: 1.0
+    PREPROCESS:
+      DATA_TYPE:
+      - DiffNormalized
+      LABEL_TYPE: DiffNormalized
+      DO_CHUNK: true
+      CHUNK_LENGTH: 160
+      CROP_FACE:
+        DO_CROP_FACE: true
+        BACKEND: RF
+        RETINAFACE_MODEL_PATH: weights/retinaface/Resnet50_Final.pth
+        USE_LARGE_FACE_BOX: true
+        LARGE_BOX_COEF: 1.5
+        DETECTION:
+          DO_DYNAMIC_DETECTION: false
+          DYNAMIC_DETECTION_FREQUENCY: 32
+          USE_MEDIAN_FACE_BOX: false
+      RESIZE:
+        H: 72
+        W: 72
+    LANDMARKS_PATH: datasets/MMPD/landmarks
+    POSES_PATH: datasets/MMPD/poses
+    VALID_MASK_PATH: datasets/MMPD/valid_mask
+    TRANSFORMS_PATH: datasets/MMPD/transforms
+    HOMOGRAPHIES_PATH: datasets/MMPD/homographies

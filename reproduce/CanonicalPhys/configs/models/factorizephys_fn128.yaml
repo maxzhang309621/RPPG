@@ -1,0 +1,39 @@
+# FactorizePhys at FRAME_NUM=128 for direct comparison with LandmarkPhys v1.
+# All other hyperparameters match configs/models/landmarkphys_v1.yaml so
+# the comparison isolates the presence/absence of the landmark branch.
+
+MODEL:
+  NAME: FactorizePhys
+  DROP_RATE: 0.1
+  FACTORIZEPHYS:
+    FRAME_NUM: 128
+    IN_CHANNELS: 3
+    MD_FSAM: True
+    MD_TYPE: "NMF"
+    MD_TRANSFORM: "T_KAB"
+    MD_R: 1
+    MD_S: 1
+    MD_STEPS: 4
+    MD_INFERENCE: True
+    MD_RESIDUAL: True
+    INV_T: 1
+    ETA: 0.9
+    RAND_INIT: True
+    ALIGN_CHANNELS: 8
+
+TRAIN:
+  BATCH_SIZE: 4
+  EPOCHS: 30
+  LR: 1e-3
+  WEIGHT_DECAY: 0
+  MODEL_FILE_NAME: factorizephys
+
+INFERENCE:
+  BATCH_SIZE: 4
+  EVALUATION_METHOD: "FFT"
+  EVALUATION_WINDOW:
+    USE_SMALLER_WINDOW: False
+    WINDOW_SIZE: 10
+  MODEL_PATH: ""
+
+DEVICE: cuda:0

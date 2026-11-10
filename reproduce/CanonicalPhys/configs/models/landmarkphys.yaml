@@ -1,0 +1,48 @@
+MODEL:
+  NAME: LandmarkPhys
+  DROP_RATE: 0.1
+  LANDMARKPHYS:
+    FRAME_NUM: 128
+    IN_CHANNELS: 3
+    ATTN_TYPE: "v2"
+    # FSAM config (same as FactorizePhys)
+    MD_FSAM: True
+    MD_TYPE: "NMF"
+    MD_TRANSFORM: "T_KAB"
+    MD_R: 1
+    MD_S: 1
+    MD_STEPS: 4
+    MD_INFERENCE: True
+    MD_RESIDUAL: True
+    INV_T: 1
+    ETA: 0.9
+    RAND_INIT: True
+    ALIGN_CHANNELS: 8
+    # Visibility-aware spatial-mask attention config (v2)
+    NUM_LANDMARKS: 68
+    SPATIAL_SIZE: 13
+    ALPHA_INIT: 0.3
+    VISIBILITY_SHARPNESS: 8.0
+    VISIBILITY_BIAS: 0.55
+    RASTER_TEMP: 50.0
+    CANONICAL_NORMALS_PATH: "weights/mediapipe/canonical_normals_dlib68.npy"
+    MASK_DROPOUT: 0.5
+    # Optional: pretrained FactorizePhys backbone weights
+    # PRETRAINED_BACKBONE: "runs/train/exp_.../checkpoints/factorizephys_best.pth"
+
+TRAIN:
+  BATCH_SIZE: 4
+  EPOCHS: 30
+  LR: 1e-3
+  WEIGHT_DECAY: 0
+  MODEL_FILE_NAME: landmarkphys
+
+INFERENCE:
+  BATCH_SIZE: 4
+  EVALUATION_METHOD: "FFT"
+  EVALUATION_WINDOW:
+    USE_SMALLER_WINDOW: False
+    WINDOW_SIZE: 10
+  MODEL_PATH: ""
+
+DEVICE: cuda:0

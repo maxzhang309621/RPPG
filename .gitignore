@@ -1,0 +1,47 @@
+# 论文原文仅本地阅读
+papers/**/*.pdf
+papers/**/*.caj
+papers/**/*.zip
+
+# 实验产物与训练输出
+experiments/**/outputs/
+**/outputs/
+**/checkpoints/
+**/PreTrainedModels/
+**/final_model_release/
+**/ckpts/
+**/wandb/
+**/.ipynb_checkpoints/
+
+# 人脸与生理数据不进版本库
+data/
+**/*sample*.zip
+**/*.mat
+
+# 模型权重（含超过 GitHub 单文件限制的检查点）
+*.pt
+*.pth
+*.pkl
+*.ckpt
+*.onnx
+*.safetensors
+*.bin
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.env
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# 编辑器与系统文件
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

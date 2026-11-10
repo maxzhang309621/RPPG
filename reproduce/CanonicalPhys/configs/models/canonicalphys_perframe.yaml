@@ -1,0 +1,59 @@
+# CanonicalPhys: pose-canonicalizing 4-point homography warp + FactorizePhys.
+# Hyperparameters match landmarkphys_v1.yaml so CanonicalPhys is directly
+# comparable to v1 LandmarkPhys and FactorizePhys@FN=128.
+
+MODEL:
+  NAME: CanonicalPhys
+  DROP_RATE: 0.1
+  # Config section is reused from LandmarkPhys for trainer compatibility.
+  LANDMARKPHYS:
+    FRAME_NUM: 128
+    IN_CHANNELS: 3
+    ATTN_TYPE: "v1"       # ignored by CanonicalPhys; set for trainer parity
+    MD_FSAM: True
+    MD_TYPE: "NMF"
+    MD_TRANSFORM: "T_KAB"
+    MD_R: 1
+    MD_S: 1
+    MD_STEPS: 4
+    MD_INFERENCE: True
+    MD_RESIDUAL: True
+    INV_T: 1
+    ETA: 0.9
+    RAND_INIT: True
+    ALIGN_CHANNELS: 8
+    # CanonicalPhys specific
+    PADDING_MODE: "zeros"
+    STABILIZE_WARP: False            # per-frame warp (jitter-exposed)
+    ADAPTIVE_STABILIZATION: False    # no adaptive fallback
+    MOTION_THRESHOLD: 0.08           # Landmark motion threshold
+    # Direction 1 — physics-informed per-pixel weighting (Lambert cosine)
+    PHYSICS_WEIGHT: True
+    PHYSICS_SHARPNESS: 8.0
+    PHYSICS_BIAS: 0.55               # Matches v2 VisibilityMaskAttn convention
+    # Direction 2 — cross-spatial temporal consistency auxiliary loss
+    CONSISTENCY_WEIGHT: 0.1          # λ in L_total = L_BVP + λ · L_consistency
+    # Direction 3 — POS knowledge distillation in canonical space
+    DISTILL_WEIGHT: 0.2              # λ for POS pseudo-BVP distillation loss
+    FPS: 30.0                        # video frame rate for POS window sizing
+    # (unused v1 keys, kept for trainer parity)
+    NUM_LANDMARKS: 68
+    LANDMARK_DIM: 2
+    SPATIAL_SIZE: 13
+
+TRAIN:
+  BATCH_SIZE: 4
+  EPOCHS: 30
+  LR: 1e-3
+  WEIGHT_DECAY: 0
+  MODEL_FILE_NAME: canonicalphys_perframe
+
+INFERENCE:
+  BATCH_SIZE: 4
+  EVALUATION_METHOD: "FFT"
+  EVALUATION_WINDOW:
+    USE_SMALLER_WINDOW: False
+    WINDOW_SIZE: 10
+  MODEL_PATH: ""
+
+DEVICE: cuda:0

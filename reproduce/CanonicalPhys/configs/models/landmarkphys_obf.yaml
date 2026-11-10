@@ -1,0 +1,55 @@
+# OBF-only LandmarkPhys override config.
+#
+# In the v1 MediaPipe runs, OBF training overfit hard with the default
+# LR=1e-3 / DROP_RATE=0.1 / WEIGHT_DECAY=0 (best epoch 5/30, train 0.62
+# vs valid 0.92). The cleaner MediaPipe inputs let the model memorize OBF
+# faster than the noisy dlib inputs did. This file dampens the optimizer
+# without changing the architecture story for the other three datasets.
+#
+# Use:
+#   sbatch jobs/train_lp_v2_obf.sh
+
+MODEL:
+  NAME: LandmarkPhys
+  DROP_RATE: 0.2
+  LANDMARKPHYS:
+    FRAME_NUM: 128
+    IN_CHANNELS: 3
+    ATTN_TYPE: "v2"
+    MD_FSAM: True
+    MD_TYPE: "NMF"
+    MD_TRANSFORM: "T_KAB"
+    MD_R: 1
+    MD_S: 1
+    MD_STEPS: 4
+    MD_INFERENCE: True
+    MD_RESIDUAL: True
+    INV_T: 1
+    ETA: 0.9
+    RAND_INIT: True
+    ALIGN_CHANNELS: 8
+    NUM_LANDMARKS: 68
+    SPATIAL_SIZE: 13
+    ALPHA_INIT: 0.3
+    VISIBILITY_SHARPNESS: 8.0
+    VISIBILITY_BIAS: 0.55
+    RASTER_TEMP: 50.0
+    CANONICAL_NORMALS_PATH: "weights/mediapipe/canonical_normals_dlib68.npy"
+    MASK_DROPOUT: 0.5
+
+TRAIN:
+  BATCH_SIZE: 4
+  EPOCHS: 30
+  LR: 5e-4
+  WEIGHT_DECAY: 1e-4
+  MODEL_FILE_NAME: landmarkphys
+
+INFERENCE:
+  BATCH_SIZE: 4
+  EVALUATION_METHOD: "FFT"
+  EVALUATION_WINDOW:
+    USE_SMALLER_WINDOW: False
+    WINDOW_SIZE: 10
+  MODEL_PATH: ""
+
+DEVICE: cuda:0

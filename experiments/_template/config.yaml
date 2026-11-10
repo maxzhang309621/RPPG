@@ -1,0 +1,9 @@
+# 复制本目录为 experiments/expNNN_短名 后填写。
+experiment: expNNN_短名
+baseline: baselines/classical/pos
+papers: []
+data:
+  train: []
+  test: []
+seed: 0
+metrics: [mae, rmse, mape, pearson, snr]

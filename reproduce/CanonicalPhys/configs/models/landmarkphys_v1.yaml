@@ -1,0 +1,54 @@
+MODEL:
+  NAME: LandmarkPhys
+  DROP_RATE: 0.1
+  LANDMARKPHYS:
+    FRAME_NUM: 128
+    IN_CHANNELS: 3
+    ATTN_TYPE: "v1"
+    # FSAM config (same as FactorizePhys)
+    MD_FSAM: True
+    MD_TYPE: "NMF"
+    MD_TRANSFORM: "T_KAB"
+    MD_R: 1
+    MD_S: 1
+    MD_STEPS: 4
+    MD_INFERENCE: True
+    MD_RESIDUAL: True
+    INV_T: 1
+    ETA: 0.9
+    RAND_INIT: True
+    ALIGN_CHANNELS: 8
+    # LandmarkAttn (v1): Gaussian spatial prior + pose-conditioned gating
+    NUM_LANDMARKS: 68
+    LANDMARK_DIM: 2
+    SPATIAL_SIZE: 13
+    EMBED_CHANNELS: 16
+    LANDMARK_HIDDEN: 32
+    POSE_DIM: 3
+    POSE_HIDDEN: 8
+    SIGMA_INIT: 0.1
+    TEMPORAL_KERNEL: 3
+    USE_SPATIAL_PRIOR: True
+    USE_POSE_GATING: True
+    USE_TEMPORAL_CONV: True
+    LANDMARK_NOISE_STD: 0.0
+    LANDMARK_DROPOUT_RATE: 0.0
+    # Optional: pretrained FactorizePhys backbone weights
+    # PRETRAINED_BACKBONE: "runs/train/exp_.../checkpoints/factorizephys_best.pth"
+
+TRAIN:
+  BATCH_SIZE: 4
+  EPOCHS: 30
+  LR: 1e-3
+  WEIGHT_DECAY: 0
+  MODEL_FILE_NAME: landmarkphys
+
+INFERENCE:
+  BATCH_SIZE: 4
+  EVALUATION_METHOD: "FFT"
+  EVALUATION_WINDOW:
+    USE_SMALLER_WINDOW: False
+    WINDOW_SIZE: 10
+  MODEL_PATH: ""
+
+DEVICE: cuda:0

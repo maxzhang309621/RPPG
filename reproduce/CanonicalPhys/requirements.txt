@@ -1,0 +1,17 @@
+# Core: training, evaluation, inference
+torch>=2.0
+torchvision
+numpy
+scipy
+opencv-python
+mediapipe>=0.10
+lmdb
+matplotlib
+pandas
+Pillow
+PyYAML
+tqdm
+
+# Optional
+av        # PyAV: reading raw .avi videos during preprocessing (some datasets)
+wandb     # optional experiment logging (utils/wandb_logger.py)

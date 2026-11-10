@@ -1,0 +1,10 @@
+fs: 30
+face_bpm: 72
+palm_bpm: 84
+distractor_bpm: 126
+frames: 128
+spatial: 64
+face_steps: 25
+palm_steps: 40
+band_hz: [0.75, 3.0]
+seed: 0

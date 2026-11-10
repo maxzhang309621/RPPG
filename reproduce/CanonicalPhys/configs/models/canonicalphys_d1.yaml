@@ -1,0 +1,51 @@
+# Ablation: CanonicalPhys + D1 only (physics-informed per-pixel weighting).
+
+MODEL:
+  NAME: CanonicalPhys
+  DROP_RATE: 0.1
+  LANDMARKPHYS:
+    FRAME_NUM: 128
+    IN_CHANNELS: 3
+    ATTN_TYPE: "v1"
+    MD_FSAM: True
+    MD_TYPE: "NMF"
+    MD_TRANSFORM: "T_KAB"
+    MD_R: 1
+    MD_S: 1
+    MD_STEPS: 4
+    MD_INFERENCE: True
+    MD_RESIDUAL: True
+    INV_T: 1
+    ETA: 0.9
+    RAND_INIT: True
+    ALIGN_CHANNELS: 8
+    PADDING_MODE: "zeros"
+    STABILIZE_WARP: True
+    ADAPTIVE_STABILIZATION: True
+    MOTION_THRESHOLD: 0.08
+    PHYSICS_WEIGHT: True
+    PHYSICS_SHARPNESS: 8.0
+    PHYSICS_BIAS: 0.55
+    CONSISTENCY_WEIGHT: 0.0
+    DISTILL_WEIGHT: 0.0
+    FPS: 30.0
+    NUM_LANDMARKS: 68
+    LANDMARK_DIM: 2
+    SPATIAL_SIZE: 13
+
+TRAIN:
+  BATCH_SIZE: 4
+  EPOCHS: 30
+  LR: 1e-3
+  WEIGHT_DECAY: 0
+  MODEL_FILE_NAME: canonicalphys_d1
+
+INFERENCE:
+  BATCH_SIZE: 4
+  EVALUATION_METHOD: "FFT"
+  EVALUATION_WINDOW:
+    USE_SMALLER_WINDOW: False
+    WINDOW_SIZE: 10
+  MODEL_PATH: ""
+
+DEVICE: cuda:0
